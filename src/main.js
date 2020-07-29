@@ -40,7 +40,7 @@ const createMenuTemplate = () => {
 // Фильтры
 const createFilterTemplate = () => {
   return (
-      `<section class="main__filter filter container">
+    `<section class="main__filter filter container">
       <input
         type="radio"
         id="filter__all"
@@ -118,7 +118,7 @@ const createSortTemplate = () => {
 // Карточка редактирования
 const createTaskEditTemplate = () => {
   return (
-      `<article class="card card--edit card--black">
+    `<article class="card card--edit card--black">
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
@@ -320,7 +320,7 @@ const createTaskEditTemplate = () => {
 // Карточка
 const createTaskTemplate = () => {
   return (
-      `<article class="card card--black">
+    `<article class="card card--black">
         <div class="card__form">
           <div class="card__inner">
             <div class="card__control">
@@ -388,7 +388,7 @@ const boardTaskElement = boardElement.querySelector(`.board__tasks`);
 render(mainControlElement, `afterbegin`, createMenuTemplate());
 render(mainElement, `afterbegin`, createFilterTemplate());
 render(boardElement, `afterbegin`, createSortTemplate());
-for(let i = 0; i < 3; i++) {
+for (let i = 0; i < 3; i++) {
   render(boardTaskElement, `afterbegin`, createTaskTemplate());
 }
 render(boardTaskElement, `afterbegin`, createTaskEditTemplate());
