@@ -16,7 +16,7 @@ const generateDescription = () => {
 
   const randomIndex = getRandomInteger(0, descriptions.length - 1);
 
-  return descriptions[randomIndex()];
+  return descriptions[randomIndex];
 };
 
 // Генерирует дату дедлайна
@@ -52,17 +52,40 @@ const generateRepeating = () => {
     fr: Boolean(getRandomInteger(0, 1)),
     sa: false,
     su: false,
-  }
-}
+  };
+};
+
+// Генерирует случайные цвета
+const generateRandomColor = () => {
+  const colors = [`black`, `yellow`, `blue`, `green`, `pink`];
+  const randomIndex = getRandomInteger(0, colors.length - 1);
+
+  return colors[randomIndex];
+};
 
 export const generateTask = () => {
+  const description = generateDescription();
+  const dueDate = generateDate();
+  const color = generateRandomColor();
+  const repeating = dueDate === null
+    ? generateRepeating()
+    : {
+      mo: false,
+      tu: false,
+      we: Boolean(getRandomInteger(0, 1)),
+      th: false,
+      fr: Boolean(getRandomInteger(0, 1)),
+      sa: false,
+      su: false,
+    };
+
   return {
-    description: generateDescription(),
-    dueDate: generateDate(),
-    repeating: generateRepeating(),
-    color: `black`,
-    isArchive: false,
-    isFavorite: false
+    description,
+    dueDate,
+    repeating,
+    color,
+    isArchive: Boolean(getRandomInteger(0, 1)),
+    isFavorite: Boolean(getRandomInteger(0, 1))
   };
 };
 
