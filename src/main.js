@@ -6,7 +6,7 @@ import {createCartEditTemplate} from './view/cart-edit.js';
 import {createLoadingTemplate} from './view/loader.js';
 import {generateTask} from './mock/task.js';
 
-const TASK_COUNT = 3;
+const TASK_COUNT = 7;
 
 const tasks = new Array(TASK_COUNT).fill().map(generateTask);
 console.log(tasks);
@@ -24,8 +24,8 @@ render(mainControlElement, `afterbegin`, createMenuTemplate());
 render(mainElement, `afterbegin`, createFilterTemplate());
 render(boardElement, `afterbegin`, createSortTemplate());
 
-for (let i = 0; i < 3; i++) {
-  render(boardTaskElement, `afterbegin`, createCartTemplate());
+for (let i = 0; i < TASK_COUNT; i++) {
+  render(boardTaskElement, `afterbegin`, createCartTemplate(tasks[i]));
 }
 render(boardTaskElement, `afterbegin`, createCartEditTemplate());
 render(boardElement, `beforeend`, createLoadingTemplate());
