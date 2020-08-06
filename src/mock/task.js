@@ -72,9 +72,9 @@ export const generateTask = () => {
     : {
       mo: false,
       tu: false,
-      we: Boolean(getRandomInteger(0, 1)),
+      we: false,
       th: false,
-      fr: Boolean(getRandomInteger(0, 1)),
+      fr: false,
       sa: false,
       su: false,
     };
@@ -88,5 +88,3 @@ export const generateTask = () => {
     isFavorite: Boolean(getRandomInteger(0, 1))
   };
 };
-
-console.log(generateTask());

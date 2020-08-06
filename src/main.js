@@ -4,6 +4,12 @@ import {createSortTemplate} from './view/sort.js';
 import {createCartTemplate} from './view/cart.js';
 import {createCartEditTemplate} from './view/cart-edit.js';
 import {createLoadingTemplate} from './view/loader.js';
+import {generateTask} from './mock/task.js';
+
+const TASK_COUNT = 3;
+
+const tasks = new Array(TASK_COUNT).fill().map(generateTask);
+console.log(tasks);
 
 const render = (container, place, template) => {
   container.insertAdjacentHTML(place, template);
