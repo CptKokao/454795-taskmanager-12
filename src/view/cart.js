@@ -1,3 +1,4 @@
+// Проверяет просрочена ли задача
 const isExpired = (dueDate) => {
   if (dueDate === null) {
     return false;
@@ -10,8 +11,14 @@ const isExpired = (dueDate) => {
   return currentDate.getTime() > dueDate.getTime();
 };
 
+// Функция для проверки задача
+const isRepeating = (repeating) => {
+  console.log(Object.values(repeating).some(Boolean));
+  return Object.values(repeating).some(Boolean);
+};
+
 export const createCartTemplate = (task) => {
-  const {color, description, dueDate} = task;
+  const {color, description, dueDate, repeating, isArhive, isFavorite} = task;
 
   const date = dueDate !== null
     ? dueDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`})
@@ -21,21 +28,33 @@ export const createCartTemplate = (task) => {
     ? `card--deadline`
     : ``;
 
+  // Проверяет задача повторяется?
+  const repeatClassName = isRepeating(repeating)
+    ? `card--repeat`
+    : ``;
+
+  // Проверяет задача в архиве?
+  const arhiveClassName = isArhive
+    ? `cart__btn--archive card__btn--disabled`
+    : `cart__btn--archive`;
+
+  // Проверяет задача в избранном?
+  const favotiteClassName = isFavorite
+    ? `cart__btn--favotite card__btn--disabled`
+    : `cart__btn--favotite`;
+
   return (
-    `<article class="card card--${color} ${deadLineClassName}">
+    `<article class="card card--${color} ${deadLineClassName} ${repeatClassName}">
         <div class="card__form">
           <div class="card__inner">
             <div class="card__control">
               <button type="button" class="card__btn card__btn--edit">
                 edit
               </button>
-              <button type="button" class="card__btn card__btn--archive">
+              <button type="button" class="card__btn card__btn--edit ${arhiveClassName}">
                 archive
               </button>
-              <button
-                type="button"
-                class="card__btn card__btn--favorites card__btn--disabled"
-              >
+              <button type="button" class="card__btn card__btn--edit ${favotiteClassName}">
                 favorites
               </button>
             </div>
