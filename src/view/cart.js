@@ -1,26 +1,10 @@
-// Функция для проверки просрочена ли задача
-const isExpired = (dueDate) => {
-  if (dueDate === null) {
-    return false;
-  }
-
-  let currentDate = new Date();
-  currentDate.setHours(23, 59, 59, 999);
-  currentDate = new Date(currentDate);
-
-  return currentDate.getTime() > dueDate.getTime();
-};
-
-// Функция для проверки повтора задачи
-const isRepeating = (repeating) => {
-  return Object.values(repeating).some(Boolean);
-};
+import {isExpired, isRepeating, humanizeTaskDueDate} from "../utils.js";
 
 export const createCartTemplate = (task) => {
   const {color, description, dueDate, repeating, isArhive, isFavorite} = task;
 
   const date = dueDate !== null
-    ? dueDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`})
+    ? humanizeTaskDueDate(dueDate)
     : ``;
 
   // Проверяет задача просрочена?

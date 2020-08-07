@@ -1,36 +1,22 @@
-// Функция для проверки просрочена ли задача
-const isExpired = (dueDate) => {
-  if (dueDate === null) {
-    return false;
-  }
 
-  let currentDate = new Date();
-  currentDate.setHours(23, 59, 59, 999);
-  currentDate = new Date(currentDate);
-
-  return currentDate.getTime() > dueDate.getTime();
-};
-
-// Функция для проверки повтора задачи
-const isRepeating = (repeating) => {
-  return Object.values(repeating).some(Boolean);
-};
+import {COLORS} from "../const.js";
+import {isExpired, isRepeating, humanizeTaskDueDate} from "../utils.js";
 
 // Шаблон для даты
 const createTaskEditDateTemplate = (dueDate) => {
   return `<button class="card__date-deadline-toggle" type="button">
-      date: <span class="card__date-status">no</span>
+      date: <span class="card__date-status">${dueDate !== null ? `yes` : `no`}</span>
     </button>
 
     ${dueDate !== null
-    ? `<fieldset class="card__date-deadline" disabled>
+    ? `<fieldset class="card__date-deadline">
           <label class="card__input-deadline-wrap">
             <input
               class="card__date"
               type="text"
               placeholder="23 September"
               name="date"
-              value="${dueDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`})}"
+              value="${humanizeTaskDueDate(dueDate)}"
             />
           </label>
         </fieldset>`
@@ -41,11 +27,11 @@ const createTaskEditDateTemplate = (dueDate) => {
 // Шаблон для повторений
 const createTaskEditRepeatingTemplate = (repeating) => {
   return `<button class="card__repeat-toggle" type="button">
-      repeat:<span class="card__repeat-status">no</span>
+      repeat:<span class="card__repeat-status">yes</span>
     </button>
 
     ${isRepeating(repeating)
-    ? `<fieldset class="card__repeat-days" disabled>
+    ? `<fieldset class="card__repeat-days">
         <div class="card__repeat-days-inner">
           ${Object.entries(repeating).map(([day, repeat]) => `<input
             class="visually-hidden card__repeat-day-input"
@@ -63,9 +49,9 @@ const createTaskEditRepeatingTemplate = (repeating) => {
     : ``}`;
 };
 
-// Шаблон для повторений
+// Шаблон для цвета
 const createTaskEditColorsTemplate = (currentColor) => {
-  const colors = [`black`, `yellow`, `blue`, `green`, `pink`];
+  const colors = COLORS;
 
   return colors.map((color) => `<input
     type="radio"
@@ -119,7 +105,7 @@ export const createCartEditTemplate = (task = {}) => {
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
-            <svg width="100%" height="10">
+            <svg class="card__color-bar-wave" width="100%" height="10">
               <use xlink:href="#wave"></use>
             </svg>
           </div>

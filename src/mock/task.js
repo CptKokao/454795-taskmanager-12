@@ -1,10 +1,6 @@
 
-// Генерирует случайное число из диапазона
-const getRandomInteger = (a = 1, b = 0) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
+import {COLORS} from "../const.js";
+import {getRandomInteger} from "../utils.js";
 
 // Генерирует описание для карточки
 const generateDescription = () => {
@@ -57,7 +53,7 @@ const generateRepeating = () => {
 
 // Генерирует случайные цвета
 const generateRandomColor = () => {
-  const colors = [`black`, `yellow`, `blue`, `green`, `pink`];
+  const colors = COLORS;
   const randomIndex = getRandomInteger(0, colors.length - 1);
 
   return colors[randomIndex];
