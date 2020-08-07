@@ -1,4 +1,4 @@
-// Проверяет просрочена ли задача
+// Функция для проверки просрочена ли задача
 const isExpired = (dueDate) => {
   if (dueDate === null) {
     return false;
@@ -11,9 +11,8 @@ const isExpired = (dueDate) => {
   return currentDate.getTime() > dueDate.getTime();
 };
 
-// Функция для проверки задача
+// Функция для проверки повтора задачи
 const isRepeating = (repeating) => {
-  console.log(Object.values(repeating).some(Boolean));
   return Object.values(repeating).some(Boolean);
 };
 
@@ -24,6 +23,7 @@ export const createCartTemplate = (task) => {
     ? dueDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`})
     : ``;
 
+  // Проверяет задача просрочена?
   const deadLineClassName = isExpired(dueDate)
     ? `card--deadline`
     : ``;
