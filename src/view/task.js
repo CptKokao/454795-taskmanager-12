@@ -1,6 +1,6 @@
 import {isExpired, isRepeating, humanizeTaskDueDate} from "../utils.js";
 
-export const createCartTemplate = (task) => {
+export const createTaskTemplate = (task) => {
   const {color, description, dueDate, repeating, isArhive, isFavorite} = task;
 
   const date = dueDate !== null

@@ -1,8 +1,6 @@
-export const createMenuTemplate = () => {
+export const createSiteMenuTemplate = () => {
   return (
-    `<section class="main__control control container">
-        <h1 class="control__title">TASKMANAGER</h1>
-        <section class="control__btn-wrap">
+    `<section class="control__btn-wrap">
           <input
             type="radio"
             name="control"
@@ -29,7 +27,6 @@ export const createMenuTemplate = () => {
           <label for="control__statistic" class="control__label"
             >STATISTICS</label
           >
-        </section>
-      </section>`
+        </section>`
   );
 };

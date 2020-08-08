@@ -68,7 +68,7 @@ const createTaskEditColorsTemplate = (currentColor) => {
   >`).join(``);
 };
 
-export const createCartEditTemplate = (task = {}) => {
+export const createTaskEditTemplate = (task = {}) => {
   const {
     color = `black`,
     description = ``,

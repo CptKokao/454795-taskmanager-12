@@ -25,5 +25,5 @@ export const isRepeating = (repeating) => {
 
 // Функция для форматирования даты
 export const humanizeTaskDueDate = (dueDate) => {
-  return dueDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`})
+  return dueDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`});
 };
