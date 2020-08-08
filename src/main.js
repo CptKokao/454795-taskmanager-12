@@ -5,10 +5,12 @@ import {createCartTemplate} from './view/cart.js';
 import {createCartEditTemplate} from './view/cart-edit.js';
 import {createLoadingTemplate} from './view/loader.js';
 import {generateTask} from './mock/task.js';
+import {generateFilter} from './mock/filter.js';
 
 const TASK_COUNT = 7;
 
 const tasks = new Array(TASK_COUNT).fill().map(generateTask);
+const filters = generateFilter(tasks);
 
 const render = (container, place, template) => {
   container.insertAdjacentHTML(place, template);
@@ -20,7 +22,7 @@ const boardElement = document.querySelector(`.board`);
 const boardTaskElement = boardElement.querySelector(`.board__tasks`);
 
 render(mainControlElement, `afterbegin`, createMenuTemplate());
-render(mainElement, `afterbegin`, createFilterTemplate());
+render(mainElement, `afterbegin`, createFilterTemplate(filters));
 render(boardElement, `afterbegin`, createSortTemplate());
 
 for (let i = 0; i < TASK_COUNT; i++) {
