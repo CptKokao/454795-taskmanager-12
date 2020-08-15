@@ -1,7 +1,7 @@
 import SiteMenuView from './view/site-menu.js';
 import FilterView from './view/filter.js';
-import {createTaskTemplate} from './view/task.js';
-import {createTaskEditTemplate} from './view/task-edit.js';
+import TaskView from './view/task.js';
+import TaskEditView from './view/task-edit.js';
 import BoardView from './view/board.js';
 import SortView from './view/sort.js';
 import TaskListView from './view/task-list.js';
@@ -28,7 +28,7 @@ renderElement(boardComponent.getElement(), new SortView().getElement(), renderPo
 
 const taskListComponent = new TaskListView();
 renderElement(boardComponent.getElement(), taskListComponent.getElement(), renderPosition.BEFOREEND);
-renderTemplate(taskListComponent.getElement(), createTaskEditTemplate(tasks[0]), renderPosition.BEFOREEND);
+renderElement(taskListComponent.getElement(), new TaskEditView(tasks[0]).getElement(), renderPosition.BEFOREEND);
 
 // const boardElement = siteMainElement.querySelector(`.board`);
 // const taskListElement = boardElement.querySelector(`.board__tasks`);
@@ -36,7 +36,7 @@ renderTemplate(taskListComponent.getElement(), createTaskEditTemplate(tasks[0]),
 // renderTemplate(taskListElement, createTaskEditTemplate(tasks[0]), `beforeend`);
 
 for (let i = 0; i < Math.min(tasks.length, TASK_COUNT_PER_STEP); i++) {
-  renderTemplate(taskListComponent.getElement(), createTaskTemplate(tasks[i]), renderPosition.BEFOREEND);
+  renderElement(taskListComponent.getElement(), new TaskView(tasks[i]).getElement(), renderPosition.BEFOREEND);
 }
 
 if (tasks.length > TASK_COUNT_PER_STEP) {
@@ -49,7 +49,7 @@ if (tasks.length > TASK_COUNT_PER_STEP) {
     e.preventDefault();
     tasks
       .slice(renderTaskCount, renderTaskCount + TASK_COUNT_PER_STEP)
-      .forEach((task) => renderTemplate(taskListComponent.getElement(), createTaskTemplate(task), renderPosition.BEFOREEND));
+      .forEach((task) => renderElement(taskListComponent.getElement(), new TaskView(task).getElement(), renderPosition.BEFOREEND));
 
     renderTaskCount += TASK_COUNT_PER_STEP;
     if (renderTaskCount >= tasks.length) {
