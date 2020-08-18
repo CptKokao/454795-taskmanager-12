@@ -27,17 +27,27 @@ const renderTask = (taskListElement, task) => {
     taskListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
   };
 
-  const replaceFormToForm = () => {
+  const replaceFormToCard = () => {
     taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
   };
 
+  const onEscKeyDown = (e) => {
+    if(e.key === `Escape` || EventTarget.key === `Esc`) {
+      e.preventDefault();
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  }
+
   taskComponent.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
     replaceCardToForm();
+    document.addEventListener(`keydown`, onEscKeyDown);
   });
 
   taskEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (e) => {
     e.preventDefault();
-    replaceFormToForm();
+    replaceFormToCard();
+    document.addEventListener(`keydown`, onEscKeyDown);
   });
 
   render(taskListElement, taskComponent.getElement(), renderPosition.BEFOREEND);
