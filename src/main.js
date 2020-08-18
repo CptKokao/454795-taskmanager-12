@@ -11,7 +11,7 @@ import {generateTask} from './mock/task.js';
 import {generateFilter} from './mock/filter.js';
 import {render, renderPosition} from './utils.js';
 
-const TASK_COUNT =22;
+const TASK_COUNT = 22;
 const TASK_COUNT_PER_STEP = 8;
 
 const tasks = new Array(TASK_COUNT).fill().map(generateTask);
@@ -38,7 +38,7 @@ const renderTask = (taskListElement, task) => {
       replaceFormToCard();
       document.removeEventListener(`keydown`, onEscKeyDown);
     }
-  }
+  };
 
   taskComponent.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
     replaceCardToForm();
