@@ -1,6 +1,6 @@
 
 import {COLORS} from "../const.js";
-import {getRandomInteger} from "../utils.js";
+import {getRandomInteger} from "../utils/common.js";
 
 // Генерирует описание для карточки
 const generateDescription = () => {

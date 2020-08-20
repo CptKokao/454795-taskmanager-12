@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import {isExpired, isRepeating, humanizeTaskDueDate} from "../utils.js";
+import {isExpired, isRepeating, humanizeTaskDueDate} from "../utils/task.js";
 
 const createTaskTemplate = (task) => {
   const {color, description, dueDate, repeating, isArhive, isFavorite} = task;
