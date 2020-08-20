@@ -7,24 +7,29 @@ import TaskEditView from './view/task-edit.js';
 import LoadMoreButtonView from './view/loader-more-button.js';
 import {render, renderPosition, replace, remove} from './utils/render.js';
 
+const TASK_COUNT_PER_STEP = 8;
+
 export default class Board {
   constructor(boardContainer) {
     this._boardContainer = boardContainer;
 
-    this._boardContainer = new BoardView();
-    this._sortContainer = new SortView();
-    this._taskListContainer = new TaskListView();
-    this._noTaskContainer = new NoTaskView();
+    this._boardComponent = new BoardView();
+    this._sortComponent = new SortView();
+    this._taskListComponent = new TaskListView();
+    this._noTaskComponent = new NoTaskView();
   }
 
   init(boardTasks) {
     this._boardTasks = boardTasks.slice();
-    // Метод для инициализации (начала работы) модуля,
-    // малая часть текущей функции renderBoard в main.js
+
+    render(this._boardContainer, this._boardComponent, renderPosition.BEFOREEND);
+    render(this._boardComponent, this._taskListComponent, renderPosition.BEFOREEND);
+
+    this._renderBoard();
   }
 
   _renderSort() {
-    // Метод для рендеринга сортировки
+    render(this._boardComponent, this._sortComponent, renderPosition.AFTERBEGIN);
   }
 
   _renderTask() {
@@ -46,7 +51,17 @@ export default class Board {
   }
 
   _renderBoard() {
-    // Метод для инициализации (начала работы) модуля,
-    // бОльшая часть текущей функции renderBoard в main.js
+    if (this._boardTasks.every((task) => task.isArchive)) {
+      this._renderNoTasks();
+      return;
+    }
+
+    this._renderSort();
+
+    this._renderTasks(0, Math.min(this._boardTasks.length, TASK_COUNT_PER_STEP));
+
+    if (this._boardTasks.length > TASK_COUNT_PER_STEP) {
+      this._renderLoadMoreButton();
+    }
   }
 }
