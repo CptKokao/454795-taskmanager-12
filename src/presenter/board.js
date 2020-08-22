@@ -32,9 +32,39 @@ export default class Board {
     render(this._boardComponent, this._sortComponent, renderPosition.AFTERBEGIN);
   }
 
+  // Логика по созданию и рендерингу компонетов задачи,
   _renderTask(task) {
-    // Метод, куда уйдёт логика созданию и рендерингу компонетов задачи,
-    // текущая функция renderTask в main.js
+
+    const taskComponent = new TaskView(task);
+    const taskEditComponent = new TaskEditView(task);
+
+    const replaceCardToForm = () => {
+      replace(taskEditComponent, taskComponent);
+    };
+
+    const replaceFormToCard = () => {
+      replace(taskComponent, taskEditComponent);
+    };
+
+    const onEscKeyDown = (e) => {
+      if (e.key === `Escape` || EventTarget.key === `Esc`) {
+        e.preventDefault();
+        replaceFormToCard();
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      }
+    };
+
+    taskComponent.setEditClickHandler(() => {
+      replaceCardToForm();
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+
+    taskEditComponent.setEditClickHandler(() => {
+      replaceFormToCard();
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+
+    render(this._taskListComponent, taskComponent, renderPosition.BEFOREEND);
   }
 
   // Метод для рендеринга N-задач за раз
