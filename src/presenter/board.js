@@ -1,11 +1,11 @@
-import BoardView from './view/board.js';
-import SortView from './view/sort.js';
-import TaskListView from './view/task-list.js';
-import NoTaskView from './view/no-tasks.js';
-import TaskView from './view/task.js';
-import TaskEditView from './view/task-edit.js';
-import LoadMoreButtonView from './view/loader-more-button.js';
-import {render, renderPosition, replace, remove} from './utils/render.js';
+import BoardView from '../view/board.js';
+import SortView from '../view/sort.js';
+import TaskListView from '../view/task-list.js';
+import NoTaskView from '../view/no-tasks.js';
+import TaskView from '../view/task.js';
+import TaskEditView from '../view/task-edit.js';
+import LoadMoreButtonView from '../view/loader-more-button.js';
+import {render, renderPosition, replace, remove} from '../utils/render.js';
 
 const TASK_COUNT_PER_STEP = 8;
 
@@ -89,10 +89,10 @@ export default class Board {
     loadMoreButtonComponent.setEditClickHandler(() => {
       this._boardTasks
         .slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP)
-        .forEach((boardTask) => this.renderTask(boardTask));
+        .forEach((boardTask) => this._renderTask(boardTask));
 
       renderedTaskCount += TASK_COUNT_PER_STEP;
-      if (renderedTaskCount >= this.boardTasks.length) {
+      if (renderedTaskCount >= this._boardTasks.length) {
         remove(loadMoreButtonComponent);
       }
     });
