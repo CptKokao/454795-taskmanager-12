@@ -84,17 +84,26 @@ export default class Board {
     let renderedTaskCount = TASK_COUNT_PER_STEP;
     const loadMoreButtonComponent = new LoadMoreButtonView();
 
-    render(boardComponent, loadMoreButtonComponent, renderPosition.BEFOREEND);
+    render(this._boardComponent, loadMoreButtonComponent, renderPosition.BEFOREEND);
 
     loadMoreButtonComponent.setEditClickHandler(() => {
-      boardTasks
+      this._boardTasks
         .slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP)
-        .forEach((boardTask) => renderTask(taskListComponent, boardTask));
+        .forEach((boardTask) => this.renderTask(boardTask));
 
-        renderedTaskCount += TASK_COUNT_PER_STEP;
-      if (renderedTaskCount >= boardTasks.length) {
+      renderedTaskCount += TASK_COUNT_PER_STEP;
+      if (renderedTaskCount >= this.boardTasks.length) {
         remove(loadMoreButtonComponent);
       }
+    });
+  }
+
+  _renderTaskList() {
+    this._renderTasks(0, Math.min(this._boardTasks.length, TASK_COUNT_PER_STEP));
+
+    if (this._boardTasks.length > TASK_COUNT_PER_STEP) {
+      this._renderLoadMoreButton();
+    }
   }
 
   _renderBoard() {
@@ -104,11 +113,6 @@ export default class Board {
     }
 
     this._renderSort();
-
-    this._renderTasks(0, Math.min(this._boardTasks.length, TASK_COUNT_PER_STEP));
-
-    if (this._boardTasks.length > TASK_COUNT_PER_STEP) {
-      this._renderLoadMoreButton();
-    }
+    this._renderTaskList();
   }
 }
