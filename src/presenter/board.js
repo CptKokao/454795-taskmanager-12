@@ -79,9 +79,22 @@ export default class Board {
     render(this._boardComponent, this._noTaskComponent, renderPosition.AFTERBEGIN);
   }
 
+  // Метод по загрузки задач по нажатию на кнопку
   _renderLoadMoreButton() {
-    // Метод, куда уйдёт логика по отрисовке компонетов задачи,
-    // текущая функция renderTask в main.js
+    let renderedTaskCount = TASK_COUNT_PER_STEP;
+    const loadMoreButtonComponent = new LoadMoreButtonView();
+
+    render(boardComponent, loadMoreButtonComponent, renderPosition.BEFOREEND);
+
+    loadMoreButtonComponent.setEditClickHandler(() => {
+      boardTasks
+        .slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP)
+        .forEach((boardTask) => renderTask(taskListComponent, boardTask));
+
+        renderedTaskCount += TASK_COUNT_PER_STEP;
+      if (renderedTaskCount >= boardTasks.length) {
+        remove(loadMoreButtonComponent);
+      }
   }
 
   _renderBoard() {
