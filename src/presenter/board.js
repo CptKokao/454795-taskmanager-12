@@ -32,17 +32,21 @@ export default class Board {
     render(this._boardComponent, this._sortComponent, renderPosition.AFTERBEGIN);
   }
 
-  _renderTask() {
+  _renderTask(task) {
     // Метод, куда уйдёт логика созданию и рендерингу компонетов задачи,
     // текущая функция renderTask в main.js
   }
 
-  _renderTasks() {
-    // Метод для рендеринга N-задач за раз
+  // Метод для рендеринга N-задач за раз
+  _renderTasks(from, to) {
+    this._boardTasks
+    .slice(from, to)
+    .forEach((boardTask) => this._renderTask(boardTask));
   }
 
+  // Метод для рендеринга заглушки
   _renderNoTasks() {
-    // Метод для рендеринга заглушки
+    render(this._boardComponent, this._noTaskComponent, renderPosition.AFTERBEGIN);
   }
 
   _renderLoadMoreButton() {
