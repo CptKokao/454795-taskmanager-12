@@ -20,7 +20,7 @@ export default class Sort extends AbstractView {
   }
 
   _sortTypeChangeHandler(e) {
-    if (e.taget.name !== `A`) {
+    if (e.target.tagName !== `A`) {
       return;
     }
 
@@ -29,7 +29,7 @@ export default class Sort extends AbstractView {
   }
 
   setSortTypeChangeHandler(callback) {
-    this._callback.click = callback;
+    this._callback.sortTypeChange = callback;
     this.getElement().addEventListener(`click`, this._sortTypeChangeHandler);
   }
 }
