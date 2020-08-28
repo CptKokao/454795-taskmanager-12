@@ -5,7 +5,7 @@ import NoTaskView from '../view/no-tasks.js';
 import LoadMoreButtonView from '../view/loader-more-button.js';
 import TaskPresenter from "./task.js";
 import {render, RenderPosition, remove} from "../utils/render.js";
-import {updateItem} from "../utils/common.js";;
+import {updateItem} from "../utils/common.js";
 import {sortTaskUp, sortTaskDown} from "../utils/task.js";
 import {SortType} from "../const.js";
 

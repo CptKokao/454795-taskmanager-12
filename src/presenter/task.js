@@ -5,7 +5,7 @@ import {render, RenderPosition, replace, remove} from "../utils/render.js";
 const Mode = {
   DEFAULT: `DEFAULT`,
   EDITING: `EDITING`
-}
+};
 
 export default class Task {
   constructor(taskListContainer, changeData, changeMode) {
