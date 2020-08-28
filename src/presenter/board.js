@@ -2,10 +2,9 @@ import BoardView from '../view/board.js';
 import SortView from '../view/sort.js';
 import TaskListView from '../view/task-list.js';
 import NoTaskView from '../view/no-tasks.js';
-import TaskView from '../view/task.js';
-import TaskEditView from '../view/task-edit.js';
 import LoadMoreButtonView from '../view/loader-more-button.js';
-import {render, renderPosition, replace, remove} from "../utils/render.js";
+import TaskPresenter from "./task.js";
+import {render, RenderPosition, remove} from "../utils/render.js";
 import {sortTaskUp, sortTaskDown} from "../utils/task.js";
 import {SortType} from "../const.js";
 
@@ -34,8 +33,8 @@ export default class Board {
     // сохранив исходный массив:
     this._sourcedBoardTasks = boardTasks.slice();
 
-    render(this._boardContainer, this._boardComponent, renderPosition.BEFOREEND);
-    render(this._boardComponent, this._taskListComponent, renderPosition.BEFOREEND);
+    render(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
+    render(this._boardComponent, this._taskListComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
   }
@@ -71,43 +70,15 @@ export default class Board {
   }
 
   _renderSort() {
-    render(this._boardComponent, this._sortComponent, renderPosition.AFTERBEGIN);
+    render(this._boardComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   // Логика по созданию и рендерингу компонетов задачи,
   _renderTask(task) {
 
-    const taskComponent = new TaskView(task);
-    const taskEditComponent = new TaskEditView(task);
-
-    const replaceCardToForm = () => {
-      replace(taskEditComponent, taskComponent);
-    };
-
-    const replaceFormToCard = () => {
-      replace(taskComponent, taskEditComponent);
-    };
-
-    const onEscKeyDown = (e) => {
-      if (e.key === `Escape` || EventTarget.key === `Esc`) {
-        e.preventDefault();
-        replaceFormToCard();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    taskComponent.setEditClickHandler(() => {
-      replaceCardToForm();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    taskEditComponent.setEditClickHandler(() => {
-      replaceFormToCard();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    render(this._taskListComponent, taskComponent, renderPosition.BEFOREEND);
+    const taskPresenter = new TaskPresenter(this._taskListComponent);
+    taskPresenter.init(task);
   }
 
   // Метод для рендеринга N-задач за раз
@@ -119,7 +90,7 @@ export default class Board {
 
   // Метод для рендеринга заглушки
   _renderNoTasks() {
-    render(this._boardComponent, this._noTaskComponent, renderPosition.AFTERBEGIN);
+    render(this._boardComponent, this._noTaskComponent, RenderPosition.AFTERBEGIN);
   }
 
   // Метод по загрузки задач по нажатию на кнопку
@@ -133,7 +104,7 @@ export default class Board {
   }
 
   _renderLoadMoreButton() {
-    render(this._boardComponent, this._loadMoreButtonComponent, renderPosition.BEFOREEND);
+    render(this._boardComponent, this._loadMoreButtonComponent, RenderPosition.BEFOREEND);
     this._loadMoreButtonComponent.setClickHandler(this._handleLoadMoreButtonClick);
   }
 
