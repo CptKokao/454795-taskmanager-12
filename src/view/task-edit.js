@@ -1,6 +1,6 @@
 import AbstractView from './abstract.js';
 import {COLORS} from "../const.js";
-import {isExpired, isRepeating, humanizeTaskDueDate} from "../utils/task.js";
+import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate} from "../utils/task.js";
 
 const BLANK_TASK = {
   color: `black`,
@@ -20,12 +20,12 @@ const BLANK_TASK = {
 };
 
 // Шаблон для даты
-const createTaskEditDateTemplate = (dueDate) => {
+const createTaskEditDateTemplate = (dueDate, isDueDate) => {
   return `<button class="card__date-deadline-toggle" type="button">
-      date: <span class="card__date-status">${dueDate !== null ? `yes` : `no`}</span>
+      date: <span class="card__date-status">${isDueDate ? `yes` : `no`}</span>
     </button>
 
-    ${dueDate !== null
+    ${isDueDate
     ? `<fieldset class="card__date-deadline">
           <label class="card__input-deadline-wrap">
             <input
@@ -42,12 +42,12 @@ const createTaskEditDateTemplate = (dueDate) => {
 };
 
 // Шаблон для повторений
-const createTaskEditRepeatingTemplate = (repeating) => {
+const createTaskEditRepeatingTemplate = (repeating, isRepeating) => {
   return `<button class="card__repeat-toggle" type="button">
-      repeat:<span class="card__repeat-status">yes</span>
+      repeat:<span class="card__repeat-status">${isRepeating ? `yes` : `no`}</span>
     </button>
 
-    ${isRepeating(repeating)
+    ${isRepeating
     ? `<fieldset class="card__repeat-days">
         <div class="card__repeat-days-inner">
           ${Object.entries(repeating).map(([day, repeat]) => `<input
@@ -85,22 +85,22 @@ const createTaskEditColorsTemplate = (currentColor) => {
   >`).join(``);
 };
 
-const createTaskEditTemplate = (task) => {
-  const {color, description, dueDate, repeating} = task;
+const createTaskEditTemplate = (data) => {
+  const {color, description, dueDate, repeating, isDueDate, isRepeating} = data;
 
   // Проверяет задача просрочена?
-  const deadLineClassName = isExpired(dueDate)
+  const deadLineClassName = isTaskExpired(dueDate)
     ? `card--deadline`
     : ``;
 
-  const dateTemplate = createTaskEditDateTemplate(dueDate);
+  const dateTemplate = createTaskEditDateTemplate(dueDate, isDueDate);
 
   // Проверяет задача повторяется?
-  const repeatClassName = isRepeating(repeating)
+  const repeatClassName = isRepeating
     ? `card--repeat`
     : ``;
 
-  const repeatingTemplate = createTaskEditRepeatingTemplate(repeating);
+  const repeatingTemplate = createTaskEditRepeatingTemplate(repeating, isRepeating);
 
   const colorTemplate = createTaskEditColorsTemplate(color);
 
@@ -149,24 +149,60 @@ const createTaskEditTemplate = (task) => {
 };
 
 export default class TaskEdit extends AbstractView {
-  constructor(task) {
+  constructor(task = BLANK_TASK) {
     super();
-    this._task = task || BLANK_TASK;
+    this._data = TaskEdit.parseTaskToData(task);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
-    return createTaskEditTemplate(this._task);
+    return createTaskEditTemplate(this._data);
   }
 
   _formSubmitHandler(e) {
     e.preventDefault();
-    this._callback.formSubmit(this._task);
+    this._callback.formSubmit(TaskEdit.parseDataToTask(this._data));
   }
 
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  static parseTaskToData(task) {
+    return Object.assign(
+        {},
+        task,
+        {
+          isDueDate: task.dueDate !== null,
+          isRepeating: isTaskRepeating(task.repeating)
+        }
+    );
+  }
+
+  static parseDataToTask(data) {
+    data = Object.assign({}, data);
+
+    if (!data.isDueDate) {
+      data.dueDate = null;
+    }
+
+    if (!data.isRepeating) {
+      data.repeating = {
+        mo: false,
+        tu: false,
+        we: false,
+        th: false,
+        fr: false,
+        sa: false,
+        su: false
+      };
+    }
+
+    delete data.isDueDate;
+    delete data.isRepeating;
+
+    return data;
   }
 }
 
