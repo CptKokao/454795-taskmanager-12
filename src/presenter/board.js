@@ -85,11 +85,9 @@ export default class Board {
 
   // Логика по созданию и рендерингу компонетов задачи,
   _renderTask(task) {
-
-    const taskPresenter = new TaskPresenter(this._taskListComponent);
+    const taskPresenter = new TaskPresenter(this._taskListComponent, this._handleTaskChange);
     taskPresenter.init(task);
     this._taskPresenter[task.id] = taskPresenter;
-
   }
 
   // Метод для рендеринга N-задач за раз
