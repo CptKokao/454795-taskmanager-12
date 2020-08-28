@@ -1,4 +1,4 @@
-import AbstractView from './abstract.js';
+import SmartView from "./smart.js";
 import {COLORS} from "../const.js";
 import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate} from "../utils/task.js";
 
@@ -150,10 +150,11 @@ const createTaskEditTemplate = (data) => {
   );
 };
 
-export default class TaskEdit extends AbstractView {
+export default class TaskEdit extends SmartView {
   constructor(task = BLANK_TASK) {
     super();
     this._data = TaskEdit.parseTaskToData(task);
+
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._descriptionInputHandler = this._descriptionInputHandler.bind(this);
     this._dueDateToggleHandler = this._dueDateToggleHandler.bind(this);
@@ -166,37 +167,6 @@ export default class TaskEdit extends AbstractView {
 
   getTemplate() {
     return createTaskEditTemplate(this._data);
-  }
-
-  updateData(update, justDataUpdating) {
-    if (!update) {
-      return;
-    }
-
-    this._data = Object.assign(
-        {},
-        this._data,
-        update
-    );
-
-    if (justDataUpdating) {
-      return;
-    }
-
-    this.updateElement();
-  }
-
-  updateElement() {
-    let prevElement = this.getElement();
-    const parent = prevElement.parentElement;
-    this.removeElement();
-
-    const newElement = this.getElement();
-
-    parent.replaceChild(newElement, prevElement);
-    prevElement = null; // Чтобы окончательно "убить" ссылку на prevElement
-
-    this.restoreHandlers();
   }
 
   restoreHandlers() {

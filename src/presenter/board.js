@@ -35,7 +35,6 @@ export default class Board {
     // исходный порядок можно сохранить только одним способом -
     // сохранив исходный массив:
     this._sourcedBoardTasks = boardTasks.slice();
-    console.log(boardTasks);
 
     render(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
     render(this._boardComponent, this._taskListComponent, RenderPosition.BEFOREEND);
