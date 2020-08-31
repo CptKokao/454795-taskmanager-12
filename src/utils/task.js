@@ -1,5 +1,5 @@
 // Функция для проверки просрочена ли задача
-export const isExpired = (dueDate) => {
+export const isTaskExpired = (dueDate) => {
   if (dueDate === null) {
     return false;
   }
@@ -12,7 +12,7 @@ export const isExpired = (dueDate) => {
 };
 
 // Функция для проверки повтора задачи
-export const isRepeating = (repeating) => {
+export const isTaskRepeating = (repeating) => {
   return Object.values(repeating).some(Boolean);
 };
 
