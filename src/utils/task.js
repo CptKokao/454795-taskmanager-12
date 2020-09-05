@@ -1,3 +1,5 @@
+import moment from "moment";
+
 // Функция для проверки просрочена ли задача
 export const isTaskExpired = (dueDate) => {
   if (dueDate === null) {
@@ -17,8 +19,12 @@ export const isTaskRepeating = (repeating) => {
 };
 
 // Функция для форматирования даты
-export const humanizeTaskDueDate = (dueDate) => {
-  return dueDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`});
+export const formatTaskDueDate = (dueDate) => {
+  if (!(dueDate instanceof Date)) {
+    return ``;
+  }
+
+  return moment(dueDate).format(`D MMMM`);
 };
 
 // Функция помещает задачи без даты в конце списка,
