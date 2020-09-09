@@ -1,24 +1,36 @@
 import moment from "moment";
 
-// Функция для проверки просрочена ли задача
+export const getCurrentDate = () => {
+  const currentDate = new Date();
+  currentDate.setHours(23, 59, 59, 999);
+
+  return new Date(currentDate);
+};
+
 export const isTaskExpired = (dueDate) => {
   if (dueDate === null) {
     return false;
   }
 
-  let currentDate = new Date();
-  currentDate.setHours(23, 59, 59, 999);
-  currentDate = new Date(currentDate);
+  const currentDate = getCurrentDate();
 
-  return currentDate.getTime() > dueDate.getTime();
+  return moment(currentDate).isAfter(dueDate, `day`);
 };
 
-// Функция для проверки повтора задачи
+export const isTaskExpiringToday = (dueDate) => {
+  if (dueDate === null) {
+    return false;
+  }
+
+  const currentDate = getCurrentDate();
+
+  return moment(dueDate).isSame(currentDate, `day`);
+};
+
 export const isTaskRepeating = (repeating) => {
   return Object.values(repeating).some(Boolean);
 };
 
-// Функция для форматирования даты
 export const formatTaskDueDate = (dueDate) => {
   if (!(dueDate instanceof Date)) {
     return ``;
@@ -63,4 +75,12 @@ export const sortTaskDown = (taskA, taskB) => {
   }
 
   return taskB.dueDate.getTime() - taskA.dueDate.getTime();
+};
+
+export const isDatesEqual = (dateA, dateB) => {
+  if (dateA === null && dateB === null) {
+    return true;
+  }
+
+  return moment(dateA).isSame(dateB, `day`);
 };
