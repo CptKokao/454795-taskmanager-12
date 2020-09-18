@@ -73,6 +73,10 @@ siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 filterPresenter.init();
 boardPresenter.init();
 
-api.getTasks().then((tasks) => {
-  tasksModel.setTasks(tasks);
-});
+api.getTasks()
+  .then((tasks) => {
+    tasksModel.setTasks(UpdateType.INIT, tasks);
+  })
+  .catch(() => {
+    tasksModel.setTasks(UpdateType.INIT, []);
+  });
