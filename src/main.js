@@ -10,8 +10,6 @@ import Api from "./api.js";
 
 const AUTHORIZATION = `Basic hS2sd3dfSwcl1sa2j`;
 const END_POINT = `https://12.ecmascript.pages.academy/task-manager`;
-
-const tasks = new Array(TASK_COUNT).fill().map(generateTask);
 const api = new Api(END_POINT, AUTHORIZATION);
 
 const tasksModel = new TasksModel();
@@ -22,7 +20,7 @@ const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 
 const siteMenuComponent = new SiteMenuView();
 
-const boardPresenter = new BoardPresenter(siteMainElement, tasksModel, filterModel);
+const boardPresenter = new BoardPresenter(siteMainElement, tasksModel, filterModel, api);
 const filterPresenter = new FilterPresenter(siteMainElement, filterModel, tasksModel);
 
 const handleTaskNewFormClose = () => {
