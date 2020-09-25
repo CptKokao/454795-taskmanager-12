@@ -6,7 +6,7 @@ import TasksModel from "./model/tasks.js";
 import FilterModel from "./model/filter.js";
 import {render, RenderPosition, remove} from "./utils/render.js";
 import {MenuItem, UpdateType, FilterType} from "./const.js";
-import Api from ".api/index.js";
+import Api from "./api/index.js";
 import Store from "./api/store.js";
 import Provider from "./api/provider.js";
 
